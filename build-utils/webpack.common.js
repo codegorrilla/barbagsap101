@@ -47,7 +47,7 @@ module.exports = {
                 to: '[name].[ext]', 
             },{ 
                 from: 'src/assets/images/*',
-                to: 'images/[name].[ext]',
+                to: 'assets/images/[name].[ext]',
             },
             { 
                 from: 'src/*.scss',

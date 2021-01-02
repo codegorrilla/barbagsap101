@@ -1,80 +1,99 @@
 console.log('Hello Barba');
 
 import barba from '@barba/core';
-import barbaCss from '@barba/css';
+//import barbaPrefetch from '@barba/prefetch';
+import barbaRouter from '@barba/router';
+import gsap from 'gsap';
+import {revealProject, leaveToProject, leaveFromProject, animationEnter, animationLeave} from './animations';
 
-//tell barba to use the css plugin
-barba.use(barbaCss);
+const myRoutes = [
+    {name: 'home', path: '/index.html'},
+    {name: 'architecture', path: '/architecture.html'},
+    {name: 'detail', path: '/detail-page.html'},
+    {name: 'detail-2', path: '/detail-page-2.html'}
+]
 
-const body = document.querySelector('body');
+//barba.use(barbaPrefetch);
+barba.use(barbaRouter, {
+    routes: myRoutes
+});
 
-//hiding default background trick
-barba.hooks.before((data)=>{
-   const background = data.current.container.dataset.background;
-    
-    body.style.setProperty('--page-background', background);
+const resetActiveLink = ()=> gsap.set('a.is-active span', {
+    xPercent: -100,
+    transformOrigin: 'left'
+});
+
+//global hooks
+barba.hooks.enter((data) => {
+   window.scrollTo(0,0);
+   console.log(data);
+});
+
+barba.hooks.after(() => {
+   console.log('after'); 
 });
 
 //init Barba
 barba.init({
+    views: [//views for any particular page
+        {
+            namespace: 'architecture',
+            beforeEnter(){
+                console.log('before enter architecture');
+            }
+        }
+    ],
     transitions: [
         {
-            name: 'home',
-            sync: true,
-            once(){
-                //with css plugin ,this will not run
-                console.log('once');
-            },
-            leave(){},
-            enter(){}
-        },{
-            name: 'fade',
+            name: 'detail',
             to: {
-                namespace: ['fade']
+                namespace: ['detail']
             },
-            leave(){
-                
+            once({next}){
+                revealProject(next.container);
             },
-            enter(){
-                
+            leave: ({current}) => leaveToProject(current.container),
+            enter({next}){
+                revealProject(next.container);
             }
         },{
-            name: 'clip',
-            sync: true,
-            to: {
-                namespace: ['clip']
+            name: 'general-transition',
+            once({next}){
+                resetActiveLink();
+                gsap.from('header a', {
+                    duration: 0.6,
+                    yPercent: 100,
+                    stagger: 0.2,
+                    ease: 'power1.out',
+                    onComplete: ()=> animationEnter(next.container)
+                });
             },
-            leave(){
-                
-            },
-            enter(){
-                
-            },
-            beforeEnter(){
-                console.log('clip page loaded');
+            leave: ({current}) => animationLeave(current.container),
+            enter({next}){
+                animationEnter(next.container);
             }
         },{
-            name: 'with-cover',
-            to: {
-                namespace: ['with-cover']
+            name: 'from-detail',
+            from: {
+                namespace: ['detail']
+                //route: ['detail-2']
             },
-            leave(){
-                
-            },
-            enter(){
-                
+            leave: ({current}) => leaveFromProject(current.container),
+            enter({next}){
+                gsap.from('header a', {
+                    duration: 0.6,
+                    yPercent: 100,
+                    stagger: 0.2,
+                    ease: 'power1.out',
+                    onComplete: () => animationEnter(next.container)
+                })
             }
         }
     ]
 });
 
-//import './demo.css';
+
 import './style.scss';
 
-//import sum from './sum.js';
 
-//import heroImg from './assets/images/vacation-one.jpg';
-
-//var homeImg = document.getElementById('vacation');
-//homeImg.src = heroImg;
 

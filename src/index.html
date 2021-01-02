@@ -3,20 +3,57 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Barba.js with Barba CSS Plugin</title>
+    <title>Barba.js with GreenSock</title>
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
   </head>
   <body data-barba="wrapper">
 
-    <header data-barba="container" data-barba-namespace="home" class="is-home" data-background="#5C85EE">
-      <div class="transition">
-        <h2>Cover Screen</h2>
-      </div>
-      <div class="content">
-        <h1>We are learning<br />page transitions<br />with Barba.js</h1>
-        <p>This demo is using @barba/css plugin.</p>
-        <a href="fade.html">Fade Transition</a>
-      </div>
-    </header>
+    <div class="wrapper" data-barba="container" data-barba-namespace="home">
+      <header>
+        <a href="index.html" class="is-active">Landscape<span>&nbsp;</span></a>
+        <a href="architecture.html">Architecture</a>
+      </header>
+      <main>
+
+        <div class="column">
+          <div class="project project01">
+            <div class="image">
+              <a href="detail-page.html"><img src="assets/images/img_landscape-01.jpg" /></a>
+            </div>
+          </div>
+          <div class="project project04">
+            <div class="image">
+              <a href="detail-page.html"><img src="assets/images/img_landscape-04.jpg" /></a>
+            </div>
+          </div>
+          <div class="project project06">
+            <div class="image">
+              <a href="detail-page.html"><img src="assets/images/img_landscape-06.jpg" /></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="column">
+          <div class="project project02">
+            <div class="image">
+              <a href="detail-page.html"><img src="assets/images/img_landscape-02.jpg" /></a>
+            </div>
+          </div>
+          <div class="project project03">
+            <div class="image">
+              <a href="detail-page.html"><img src="assets/images/img_landscape-03.jpg" /></a>
+            </div>
+          </div>
+          <div class="project project05">
+            <div class="image">
+              <a href="detail-page-2.html"><img src="assets/images/img_landscape-05.jpg" /></a>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+
+    <footer></footer>
   </body>
 </html>
